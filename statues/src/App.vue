@@ -17,34 +17,69 @@
         </td>
       </tr>
       <tr>
-
+        <td>
+          <input type="text" name="person" v-model="temp.person" />
+        </td>
+        <td>
+          <input type="number" name="height" v-model="temp.height" />
+        </td>
+        <td>
+          <input type="number" name="price" v-model="temp.price" />
+        </td>
+        <td>
+          <input type="button" @click="newStatue" value="Add"/>
+        </td>
       </tr>
     </table>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-  components: {
-  },
+  name: "App",
+  components: {},
   data() {
-    return { 
-      statues: Array
-    }
+    return {
+      statues: Array,
+      temp: {
+        id: 0,
+        person: "",
+        height: "",
+        price: "",
+      },
+    };
   },
   methods: {
     async getStatues() {
-      let response = await fetch("http://127.0.0.1:8000/api/statues")
-      let data = await response.json()
-      this.statues = data
+      const response = await fetch("http://127.0.0.1:8000/api/statues");
+      const data = await response.json();
+      this.statues = data;
+    },
+    async newStatue() {
+      const response = await fetch("http://127.0.0.1:8000/api/statues", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }, 
+        body: JSON.stringify(this.temp)
+        })
+      
+      console.log(response)
+      await this.getStatues()
+      this.resetTemp()
+    },
+    resetTemp() {
+        this.temp.id = 0
+        this.temp.person = ""
+        this.temp.height = ""
+        this.temp.price = ""
     }
   },
   mounted() {
-    this.getStatues()
-  }
-}
+    this.getStatues();
+  },
+};
 </script>
 
 <style>
