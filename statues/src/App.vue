@@ -12,7 +12,7 @@
         <td>{{ s.height }}</td>
         <td>{{ s.price }}</td>
         <td>
-          <button>Delete</button>
+          <button @click="deleteStatue(s.id)">Delete</button>
           <button>Edit</button>
         </td>
       </tr>
@@ -54,6 +54,14 @@ export default {
       const response = await fetch("http://127.0.0.1:8000/api/statues");
       const data = await response.json();
       this.statues = data;
+    },
+    async deleteStatue(selectedId) {
+      const response = await fetch(`http://127.0.0.1:8000/api/statues/${selectedId}`, {
+        method: 'DELETE'
+      })
+
+      await this.getStatues()
+      console.log(response)
     },
     async newStatue() {
       const response = await fetch("http://127.0.0.1:8000/api/statues", {
