@@ -13,7 +13,7 @@
         <td>{{ s.price }}</td>
         <td>
           <button @click="deleteStatue(s.id)">Delete</button>
-          <button>Edit</button>
+          <button @click="editStatue(s)">Edit</button>
         </td>
       </tr>
       <tr>
@@ -27,7 +27,8 @@
           <input type="number" name="price" v-model="temp.price" />
         </td>
         <td>
-          <input type="button" @click="newStatue" value="Add"/>
+          <input type="button" @click="newStatue" value="Add" v-if="!this.saving"/>
+          <button @click="saveStatue" v-if="this.saving">Save</button>
         </td>
       </tr>
     </table>
@@ -40,6 +41,7 @@ export default {
   components: {},
   data() {
     return {
+      saving: false,
       statues: Array,
       temp: {
         id: 0,
@@ -54,6 +56,35 @@ export default {
       const response = await fetch("http://127.0.0.1:8000/api/statues");
       const data = await response.json();
       this.statues = data;
+    },
+    async editStatue(selected) {
+      this.temp.id = selected.id
+      this.temp.person = selected.person
+      this.temp.height = selected.height
+      this.temp.price = selected.price
+
+      this.saving = true
+
+      console.log("saving:" + this.saving)
+    },      
+    async saveStatue() {
+      const response = await fetch(`http://127.0.0.1:8000/api/statues/${this.temp.id}`, {
+          method: 'PATCH',
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          }, 
+          body: JSON.stringify(this.temp)
+        })
+
+      console.log(response)
+
+      await this.getStatues()
+
+    this.resetTemp()
+
+      this.saving = false
+      console.log("saving:" + this.saving)
     },
     async deleteStatue(selectedId) {
       const response = await fetch(`http://127.0.0.1:8000/api/statues/${selectedId}`, {
