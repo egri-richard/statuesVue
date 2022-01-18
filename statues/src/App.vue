@@ -1,10 +1,19 @@
 <template>
-  <h1>Paintings</h1>
-  <Paintings />
+
+  <button @click="togglePaintings">{{ pbtnText }}</button>
+  <div v-if="this.showPaintings">
+    <h1>Paintings</h1>
+    <Paintings />
+  </div>
+
   <br>
 
-  <h1>Statues</h1>
-  <Statues />
+  <button @click="toggleStatues">{{ sbtnText }}</button>
+  <div v-if="this.showStatues">
+    <h1>Statues</h1>
+    <Statues />
+  </div>
+  
 </template>
 
 <script>
@@ -15,7 +24,32 @@ export default {
   components: { Paintings ,Statues },
   name: "App",
   data() {
-    return {}
+    return {
+      showPaintings: false,
+      showStatues: false,
+      pbtnText: "Show paintings",
+      sbtnText: "Show statues"
+    }
+  },
+  methods: {
+    togglePaintings() {
+      this.showPaintings = !this.showPaintings
+
+      if(this.pbtnText == "Show paintings") {
+        this.pbtnText = "Hide paintings"
+      } else {
+        this.pbtnText = "Show paintings"
+      }
+    },
+    toggleStatues() {
+      this.showStatues = !this.showStatues
+
+      if(this.sbtnText == "Show statues") {
+        this.sbtnText = "Hide statues"
+      } else {
+        this.sbtnText = "Show statues"
+      }
+    }
   }
 };
 </script>
