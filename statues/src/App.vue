@@ -1,26 +1,22 @@
 <template>
+  <h1>Paintings</h1>
+  <Paintings />
+  <br>
+
+  <h1>Statues</h1>
   <Statues />
 </template>
 
 <script>
+import Paintings from './components/Paintings.vue';
 import Statues from "./components/Statues.vue";
 
 export default {
-  components: { Statues },
+  components: { Paintings ,Statues },
   name: "App",
   data() {
-    return {
-      saving: false,
-      statues: Array,
-      temp: {
-        id: 0,
-        person: "",
-        height: "",
-        price: "",
-      },
-    };
-  },
-  methods: {},
+    return {}
+  }
 };
 </script>
 

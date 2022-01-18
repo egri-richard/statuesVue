@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: "StatuesList",
+  name: "Statues",
   data() {
     return {
       saving: false,
@@ -48,8 +48,8 @@ export default {
       temp: {
         id: 0,
         person: "",
-        height: "",
-        price: "",
+        height: 0,
+        price: 0,
       },
     };
   },
